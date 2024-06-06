@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Form -->
+        <h2>Web Form</h2>
+        <form id="myForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"><br><br>
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address"><br><br>
+            <label for="dob">Date of Birth:</label>
+            <input type="text" id="dob" name="dob" placeholder="MM/DD/YYYY"><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"><br><br>
+            <input type="submit" value="Submit" class="submit-button">
+            <div id="error-messages"></div>
+            <div id="success-message"></div>
+        </form>
+    </div>
+    <!-- JavaScript -->
+    <script>
+        // Accessing the form element
+        const form = document.getElementById('myForm');
+        // Adding an event listener for form submission
+        form.addEventListener('submit', (e) => {
+            // Preventing the default form submission behavior
+            e.preventDefault();
+            // Retrieving input field values
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            const dob = document.getElementById('dob').value;
+            const email = document.getElementById('email').value;
+            // Accessing error and success message elements
+            const errorMessages = document.getElementById('error-messages');
+            const successMessage = document.getElementById('success-message');
+
+            // Array to store validation errors
+            let errors = [];
+
+            // Validation checks
+            if (!name || !address || !dob || !email) {
+                errors.push('All fields are required');
+            }
+
+            if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                errors.push('Invalid email format');
+            }
+
+            if (!/^\d{2}\/\d{2}\/\d{4}$/.test(dob) || dob === '') {
+                errors.push('Invalid date of birth format or date of birth is required');
+            }
+
+            // Displaying validation errors, if any
+            if (errors.length > 0) {
+                errorMessages.innerHTML = errors.join('<br>');
+                return;
+            }
+ 
+            // Displaying success message if there are no errors
+            successMessage.innerHTML = 'Submitted Successfully';
+            // Clear form fields
+            document.getElementById('myForm').reset();
+           // Hide success message after 8 seconds
+            setTimeout(() => {
+            successMessage.innerHTML = '';
+            }, 8000);
+        });
+    </script>
+</body>
+</html>
